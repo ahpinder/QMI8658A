@@ -439,7 +439,7 @@ float QMI8658A::getGyroY()
  * this gets the most recent data from the sensor.
  * @return Z-axis angular velocity, in degrees per second
  */
-float QMI8658A::getGyroX()
+float QMI8658A::getGyroZ()
 {
     float zval;
     // update sensor values if necessary
