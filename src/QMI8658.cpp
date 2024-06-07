@@ -34,17 +34,6 @@ void QMI8658A::begin(byte addr)
 }
 
 /**
- * Inialize Wire at specified speed and send default configs.
- * @param addr I2C address of sensor, typically 0x6A or 0x6B
- * @param speed I2C clock speed, sensor support up to 400kHz
- */
-void QMI8658A::begin(byte addr, uint32_t speed)
-{
-    Wire.setClock(speed);
-    begin(addr);
-}
-
-/**
  * Transmit one byte of data to QMI8658A.
  * @param addr address of data to be written
  * @param data the data to be written
