@@ -1,0 +1,33 @@
+
+# Syntax Coloring Map QMI8658A
+
+
+# Datatypes (KEYWORD1)
+QMI8658A    KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin   KEYWORD2
+setAccODR   KEYWORD2
+setGyroODR   KEYWORD2
+setAccScale   KEYWORD2
+setGyroScale   KEYWORD2
+setAccLPF   KEYWORD2
+setGyroLPF   KEYWORD2
+setState   KEYWORD2
+getRawReadings   KEYWORD2
+getAccX   KEYWORD2
+getAccY   KEYWORD2
+getAccZ   KEYWORD2
+getGyroX   KEYWORD2
+getGyroY   KEYWORD2
+getGyroZ   KEYWORD2
+
+# Structures (KEYWORD3)
+lpf_t    KEYWORD3
+acc_odr_t    KEYWORD3
+gyro_odr_t    KEYWORD3
+acc_scale_t    KEYWORD3
+gyro_scale_t    KEYWORD3
+sensor_state_t    KEYWORD3
+
+# Constants (LITERAL1)
