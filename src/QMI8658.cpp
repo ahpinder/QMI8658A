@@ -236,11 +236,12 @@ void QMI8658A::setGyroLPF(lpf_t lpf)
  */
 void QMI8658A::setState(sensor_state_t state)
 {
+    byte ctrl1;
     switch (state)
     {
     case sensor_running:
         // enable 2MHz oscillator
-        byte ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
+        ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
         ctrl1 &= 0xFE;
         QMI8658A_transmit(QMI8658_CTRL1, ctrl1);
 
@@ -258,13 +259,13 @@ void QMI8658A::setState(sensor_state_t state)
         QMI8658A_transmit(QMI8658_CTRL7, 0x00);
 
         // disable 2MHz oscillator
-        byte ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
+        ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
         ctrl1|= 0x01;
         QMI8658A_transmit(QMI8658_CTRL1, ctrl1);
         break;
     case sensor_locking:
         // enable 2MHz oscillator
-        byte ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
+        ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
         ctrl1 &= 0xFE;
         QMI8658A_transmit(QMI8658_CTRL1, ctrl1);
 
