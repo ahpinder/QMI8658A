@@ -122,14 +122,14 @@ void QMI8658A::QMI8658_sensor_update()
     unsigned long beforeRequest = millis();
     Wire.write(QMI8658_AX_L);
     Wire.endTransmission(false);
-    Wire.requestFrom(this->device_addr, (uint8_t)12);
+    Wire.requestFrom(this->device_addr, (uint8_t)12, (uint8_t)true);
     for (int i = 0; i < 12; i++) {
         while(Wire.available() == 0)
         {
             if (millis() - beforeRequest > QMI8658_COMM_TIMEOUT)
                 return;
         }
-        if (i & 0x01 == 0)
+        if (i % 2 == 0)
         {
             readings[i >> 1] = (int16_t)Wire.read();
         }
@@ -138,7 +138,6 @@ void QMI8658A::QMI8658_sensor_update()
             readings[i >> 1] |= (int16_t)Wire.read() << 8;
         }
     }
-    Wire.endTransmission();
 }
 
 inline void QMI8658A::QMI8658_update_if_needed()
