@@ -157,6 +157,7 @@ private:
 public:
     QMI8658A();
     void begin(byte addr);
+    void begin(byte addr, uint32_t speed);
     void setAccODR(acc_odr_t odr);
     void setGyroODR(gyro_odr_t odr);
     void setAccScale(acc_scale_t scale);
