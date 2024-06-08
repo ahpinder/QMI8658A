@@ -88,7 +88,7 @@ void QMI8658A::QMI8658A_CTRL9_Write(byte command)
  */
 void QMI8658A::QMI8658_sensor_update()
 {
-    if (this->sensor_state = sensor_locking)
+    if (this->sensor_state == sensor_locking)
     {    // wait until STATUSINT shows data is ready
         while(QMI8658A_receive(QMI8658_STATUSINT) | 0x01 == 0)
             delayMicroseconds(3);
