@@ -118,12 +118,27 @@ void QMI8658A::QMI8658_sensor_update()
     this->reading_timestamp_us = micros();
 
     // load actual data
-    for (int i = 0; i < 6; i++) {
-        readings[i] = (
-            (int16_t)QMI8658A_receive(QMI8658_AX_L + 2*i)
-            | ((int16_t)QMI8658A_receive(QMI8658_AX_H + 2*i) << 8)
-        );
+    Wire.beginTransmission(this->device_addr);
+    unsigned long beforeRequest = millis();
+    Wire.write(QMI8658_AX_L);
+    Wire.endTransmission(false);
+    Wire.requestFrom(this->device_addr, (uint8_t)12);
+    for (int i = 0; i < 12; i++) {
+        while(Wire.available() == 0)
+        {
+            if (millis() - beforeRequest > QMI8658_COMM_TIMEOUT)
+                return;
+        }
+        if (i & 0x01 == 0)
+        {
+            readings[i >> 1] = (int16_t)Wire.read();
+        }
+        else
+        {
+            readings[i >> 1] |= (int16_t)Wire.read() << 8;
+        }
     }
+    Wire.endTransmission();
 }
 
 inline void QMI8658A::QMI8658_update_if_needed()
@@ -240,9 +255,11 @@ void QMI8658A::setState(sensor_state_t state)
     switch (state)
     {
     case sensor_running:
-        // enable 2MHz oscillator
         ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
+        // enable 2MHz oscillator
         ctrl1 &= 0xFE;
+        // enable auto address increment for fast block reads
+        ctrl1 |= 0x40;
         QMI8658A_transmit(QMI8658_CTRL1, ctrl1);
 
         // enable high speed internal clock,
@@ -258,15 +275,17 @@ void QMI8658A::setState(sensor_state_t state)
         // acc and gyro powered down
         QMI8658A_transmit(QMI8658_CTRL7, 0x00);
 
-        // disable 2MHz oscillator
         ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
+        // disable 2MHz oscillator
         ctrl1|= 0x01;
         QMI8658A_transmit(QMI8658_CTRL1, ctrl1);
         break;
     case sensor_locking:
-        // enable 2MHz oscillator
         ctrl1 = QMI8658A_receive(QMI8658_CTRL1);
+        // enable 2MHz oscillator
         ctrl1 &= 0xFE;
+        // enable auto address increment for fast block reads
+        ctrl1 |= 0x40;
         QMI8658A_transmit(QMI8658_CTRL1, ctrl1);
 
         // enable high speed internal clock,
