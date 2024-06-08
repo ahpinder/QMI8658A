@@ -90,7 +90,7 @@ void QMI8658A::QMI8658_sensor_update()
 {
     if (this->sensor_state == sensor_locking)
     {    // wait until STATUSINT shows data is ready
-        while(QMI8658A_receive(QMI8658_STATUSINT) | 0x01 == 0)
+        while(QMI8658A_receive(QMI8658_STATUSINT) & 0x01 == 0)
             delayMicroseconds(3);
         
         // wait a resonable interval for data loading
