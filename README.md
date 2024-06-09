@@ -34,11 +34,11 @@ Note: generally one of 2 addresses are used: 0x6A (if SA0 pin is high) or 0x6B (
 
 After beginning, we can change parameters, e.g.
 
-`qmi.setAccScale(acc_scale_2g)`
+`qmi.setAccScale(acc_scale_2g);`
 
 Once we are satisfied with our parameters, we can read the sensor values, either one at a time:
 
-`float accx = qmi.readAccX()`
+`float accx = qmi.readAccX();`
 
 or all at once in raw 16-bit int:
 
@@ -51,7 +51,7 @@ qmi.getRawReadings(sensorvalues);
 
 The QMI8658A has several operating modes, and this library can use two of them: normal and locked.
 In normal operating mode, we can ping each sensor output register at our leisure, but the registers are not guaranteed to be synced to each other, i.e. you could get the x-axis acceleration from the last reading and the y-axis acceleration from the current reading depending on when each register is read. Or worse, you could read the least significant byte of one reading and the most significant byte of the next reading.
-To fix this issue, the QMI8658A has a locking mechanism, where the sensors are read and the data is synchronized and locked in the registers until the host is done reading them. To access locking mode in this library, use `qmi.setState(sensor_locking)` after `begin()`. Continue to use the read functions as normal, but now quick successive reads within 2ms will be guaranteed to come from the same sample. (Note: the threshold for getting new data can be changed by setting `QMI8658_REFRESH_DELAY` to a new value in microseconds). This is the reccommended operating mode for sensitive applications like AR/VR, drones or SLAM where high accuracy is needed.
+To fix this issue, the QMI8658A has a locking mechanism, where the sensors are read and the data is synchronized and locked in the registers until the host is done reading them. To access locking mode in this library, use `qmi.setState(sensor_locking)` after `begin()`. Continue to use the read functions as normal, but now quick successive reads within 2ms will be guaranteed to come from the same sample. (Note: the threshold for getting new data can be changed by setting `QMI8658_REFRESH_DELAY` to a new value in microseconds). This is the recommended operating mode for sensitive applications like AR/VR, drones or SLAM where high accuracy is needed.
 
 # Speed
 
