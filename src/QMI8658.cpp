@@ -224,6 +224,7 @@ void QMI8658A::setAccLPF(lpf_t lpf)
     byte ctrl5 = QMI8658A_receive(QMI8658_CTRL5);
     ctrl5 &= !QMI8658_ALPF_MASK;
     ctrl5 |= lpf << QMI8658_ALPF_OFFSET;
+    ctrl5 |= 0x01; // turn on acc low pass filter
     QMI8658A_transmit(QMI8658_CTRL5, ctrl5);
     }
     this->acc_lpf = lpf;
@@ -240,6 +241,7 @@ void QMI8658A::setGyroLPF(lpf_t lpf)
     byte ctrl5 = QMI8658A_receive(QMI8658_CTRL5);
     ctrl5 &= !QMI8658_GLPF_MASK;
     ctrl5 |= lpf << QMI8658_GLPF_OFFSET;
+    ctrl5 |= 0x10; // turn on gyro low pass filter
     QMI8658A_transmit(QMI8658_CTRL5, ctrl5);
     }
 }
